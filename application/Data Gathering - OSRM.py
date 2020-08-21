@@ -1,6 +1,7 @@
 import pandas as pd
 import requests 
 import os
+import math
 from xml.etree import ElementTree
 from datetime import datetime
 
@@ -96,7 +97,7 @@ for file_index in range(index_start_point_file, index_end_point_file):
     print("start file in {}".format(datetime.now()))
     for index, data in traffic_events_data.iterrows():
         start_location = Location([data["StartPoint_Lng"], data["StartPoint_Lat"]])
-        if "EndPoint_Lng" in data and "EndPoint_Lat" in data:
+        if "EndPoint_Lng" in data and "EndPoint_Lat" in data and not math.isnan(data["EndPoint_Lat"]):
             end_location = Location([data["EndPoint_Lng"], data["EndPoint_Lat"]])
         else:
             end_location = Location([data["StartPoint_Lng"], data["StartPoint_Lat"]])
