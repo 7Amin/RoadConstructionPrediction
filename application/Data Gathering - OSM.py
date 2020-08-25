@@ -6,7 +6,7 @@ from xml.etree.ElementTree import fromstring, ElementTree
 from datetime import datetime
 import json
 import statistics 
-from statistics import mode
+from collections import Counter 
 
 TrafficEvents = None
 
@@ -28,8 +28,10 @@ def read_data(path):
     print("reading is finished length is {} ".format(len(data)))
     return data
 
-def most_common(List): 
-    return(mode(List)) 
+
+def most_frequent(List): 
+    occurence_count = Counter(List) 
+    return occurence_count.most_common(1)[0][0]
 
 class OSM(object):
     @staticmethod
@@ -92,7 +94,7 @@ for i in range(index_start_point_file, index_end_point_file):
             node_id = ways_id.pop()
             type_of_way = OSM.get_type_of_way_contain_node_by_node_id(node_id)
             type_of_ways.append(type_of_way)
-        type_of_road = most_common(type_of_ways)
+        type_of_road = most_frequent(type_of_ways)
         if index % 50 == 0:
             print("number: {} is {}".format(index, type_of_road))
             print("Time is {}".format(datetime.now()))
